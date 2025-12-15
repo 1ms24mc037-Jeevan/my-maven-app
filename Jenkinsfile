@@ -1,28 +1,24 @@
 pipeline {
     agent any
 
+    tools {
+        maven 'Maven'
+        jdk 'JDK17'
+    }
+
     stages {
-        stage('Checkout Code') {
+        stage('Checkout') {
             steps {
                 git branch: 'main',
-                    credentialsId: 'github-ssh',
-                    url: 'git@github.com:1ms24mc037-Jeevan/my-maven-app.git'
+                    url: 'git@github.com:1ms24mc037-Jeevan/my-maven-app.git',
+                    credentialsId: 'github-ssh'
             }
         }
 
-        stage('Build with Maven') {
+        stage('Build') {
             steps {
                 sh 'mvn clean package'
             }
-        }
-    }
-
-    post {
-        success {
-            echo 'Maven build successful'
-        }
-        failure {
-            echo 'Maven build failed'
         }
     }
 }
